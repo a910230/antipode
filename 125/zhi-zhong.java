@@ -1,16 +1,22 @@
-// Can be optimized
-
 class Solution {
-    public boolean isPalindrome(String s) {        
-        String sSimp = s.toLowerCase().replaceAll("[^a-z0-9]", "");
-        int l = sSimp.length();
+    public boolean isPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
         
-        
-        if (sSimp.isEmpty()) return true;
-
-        for (int i = 0; i < l / 2; ++i) {
-            if (sSimp.charAt(i) != sSimp.charAt(l - 1 - i)) return false;
+        while (l < r) {
+            if (!Character.isLetterOrDigit(s.charAt(l))) {
+                ++l;
+                continue;
+            }
+            if (!Character.isLetterOrDigit(s.charAt(r))) {
+                --r;
+                continue;
+            }
+            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) return false;
+            ++l;
+            --r;
         }
+        
         return true;
     }
 }
