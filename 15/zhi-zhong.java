@@ -1,4 +1,3 @@
-// Optimization needed
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
@@ -6,46 +5,25 @@ class Solution {
         
         // nums.length is guaranteed to be at least 3
         int len = nums.length;
-        
-        int i = 0;
-        while (nums[i] <= 0) {
-            int j = i + 1;
-            if (nums[i] + nums[j] > 0) break;
-            int k = len - 1;
-            if (nums[k] < 0) break;
+            
+        int j, k, sum;
+        for (int i = 0; i < len - 2; ++i) {
+            if (nums[i] > 0) break;
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            j = i + 1;
+            k = len - 1;
             
             while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
+                sum = nums[i] + nums[j] + nums[k];
                 if (sum == 0) {
-                    List<Integer> sol = new ArrayList<>();
-                    sol.add(nums[i]);
-                    sol.add(nums[j]);
-                    sol.add(nums[k]);
+                    List<Integer> sol = Arrays.asList(nums[i], nums[j], nums[k]);
                     ret.add(sol);
                     
-                    while (nums[j] == sol.get(1)) {
-                        ++j; 
-                        if (j == k) break;
-                    }
-                } else if (sum < 0) {
-                    int curJ = nums[j];
-                    while (nums[j] == curJ) {
-                        ++j;
-                        if (j == k) break;
-                    }
-                } else { // sum > 0
-                    int curK = nums[k];
-                    while (nums[k] == curK) {
-                        --k;
-                        if (j == k) break;
-                    }
-                }
-            }
-            
-            int curI = nums[i];
-            while (nums[i] == curI) {
-                ++i;
-                if (i == len - 2) return ret;
+                    ++j;
+                    while (j < k && nums[j] == nums[j - 1]) ++j;
+                } 
+                else if (sum < 0) ++j;
+                else --k;
             }
         }
         
